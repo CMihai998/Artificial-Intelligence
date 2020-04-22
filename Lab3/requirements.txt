@@ -1,0 +1,4 @@
+texttable
+numpy
+PyQt5
+matplotlib

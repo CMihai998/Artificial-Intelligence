@@ -1,30 +1,28 @@
-from texttable import Texttable
-
-from models.neuron import Neuron
-
+from models.neuron import Neuron, linear
 
 class Layer:
-	def __init__(self, neuronsCount, neuronSize):
-		self._noNeurons = neuronsCount
-		self._neurons = [Neuron(neuronSize) for i in range(neuronsCount)]
+	def __init__(self, noOfInputs, activationFunction, noOfNeurons):
+		self._noOfNeurons = noOfNeurons
+		self._neurons = [Neuron(noOfInputs, activationFunction) for i in
+		                 range(self._noOfNeurons)]
 
-	def getNeuron(self, index):
-		return self._neurons[index]
-
-	def getNeurons(self):
-		return self._neurons
-
-	def getLayerSize(self):
-		return self._noNeurons
+	def forward(self, input):
+		return [neuron.activate(input) for neuron in self._neurons]
 
 	def __str__(self):
 		result = ''
-		for neuron in self._neurons:
-			auxTable = Texttable()
-			auxTable.set_precision(14)
-			row = []
-			for i in range(neuron.getNoInputs()):
-				row.append(neuron.getWeight(i))
-			auxTable.add_row(row)
-			result = result + auxTable.draw() + '\n\n'
+		for i in range(self._noOfNeurons):
+			result += ' neuron: ' + str(i) + ' ' + str(self._neurons[i]) + '\n'
 		return result
+
+
+class FirstLayer(Layer):
+	def __init__(self, noNeurons, bias=False):
+		if bias:
+			noNeurons += 1
+		Layer.__init__(self, 1, linear, noNeurons)
+		for neuron in self._neurons:
+			neuron.setWeights([1])
+
+	def forward(self, input):
+		return [self._neurons[i].activate([input[i]]) for i in range(len(self._neurons))]

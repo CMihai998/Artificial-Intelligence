@@ -1,13 +1,44 @@
+from math import exp
+
 import numpy
 
 
-def linear(x):
+def identical(x):
 	return x
 
 
-def derivativeLinear(_):
+def dIdentical(x):
 	return 1
 
+
+def ReLU(x):
+	return max(0, x)
+
+
+def dReLU(x):
+	if x > 0:
+		return 1
+	else:
+		return 0
+
+
+def threshold(x):
+	if x > 0.2:
+		return 1
+	return 0
+
+
+def dThreshold(x):
+	# is just to have some function when we train the network
+	return 1
+
+
+def sigmoid(x):
+	return (1.0 / (1.0 + exp(-x)))
+
+
+def dSigmoid(x):
+	return x * (1.0 - x)
 
 class Neuron:
 	def __init__(self, n, activationFunction):

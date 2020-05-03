@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 from models.network import Network
-from models.neuron import linear, derivativeLinear
+from models.neuron import *
 
 def readData():
 	data = []
@@ -25,7 +25,7 @@ def readData():
 	return data, result
 
 def mainUtil():
-	network = Network([5,1,1], linear, derivativeLinear)
+	network = Network([5,1,1], identical, dIdentical)
 	inputData, outputData = readData()
 	errors = []
 	iterations = []
@@ -34,12 +34,13 @@ def mainUtil():
 		error = []
 		for j in range(len(inputData)):
 			error.append(network.computeLoss(inputData[j], outputData[j])[0])
-			network.backwardPropagate(network.computeLoss(inputData[j], outputData[j]), 0.000004)
-		errors.append(sum([x/len(error) for x in error]))
+			network.backwardPropagate(network.computeLoss(inputData[j], outputData[j]), 0.00000001)
+		errors.append(sum([(x**0.08) / len(error) for x in error]))
 		for j in range(len(inputData)):
 			network.feedForward(inputData[j])
+
 	print(str(network))
-	plt.plot(iterations, errors, label='loss value vs iteration 1000, 0.000004')
+	plt.plot(iterations, errors, label='loss value vs iteration')
 	plt.xlabel('Iterations')
 	plt.ylabel('loss function')
 	plt.legend()

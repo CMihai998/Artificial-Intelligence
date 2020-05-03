@@ -1,4 +1,4 @@
-from models.neuron import Neuron, linear
+from models.neuron import *
 
 class Layer:
 	def __init__(self, noOfInputs, activationFunction, noOfNeurons):
@@ -20,7 +20,7 @@ class FirstLayer(Layer):
 	def __init__(self, noNeurons, bias=False):
 		if bias:
 			noNeurons += 1
-		Layer.__init__(self, 1, linear, noNeurons)
+		Layer.__init__(self, 1, identical, noNeurons)
 		for neuron in self._neurons:
 			neuron.setWeights([1])
 

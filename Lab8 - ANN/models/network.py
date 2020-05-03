@@ -11,7 +11,7 @@ class Network:
 		self._bias = bias
 		self._structure = structure[:]
 		self._noLayers = len(self._structure)
-		self._layers = [FirstLayer(self._structure[0], bias)]
+		self._layers = [FirstLayer(self._structure[0])]
 		for i in range(1, len(self._structure)):
 			self._layers = self._layers + [Layer(self._structure[i - 1],
 			                                   activationFunction, self._structure[i])]

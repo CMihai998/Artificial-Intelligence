@@ -1,0 +1,75 @@
+I chose the Mamdani method with the Centroid Area calculation of the z-point. The rule table implies that between the conditions there's always an AND operation
+so when evaluating the rules i used the minimums of the fuzzified values. In the end, if the evaluated rules all have a single label then it is the final label,
+otherwise I calculate the COA from the result fuzzy set and then use the membership function of the output fuzzy set to get the label with the maximum membership.
+
+Example:
+1)Input: texture:0.3, 1.5
+
+First we compete the fuzzy values using the trapezoidal region or triangle region functions:
+trap(x)=max{0,min{(x-a)/(b-a),1,(d-x)/(d-c)}}
+tri(x)=max{0,min{(x-a)/(b-a),1,(c-x)/c-b)}}
+
+texture:
+verySoft: a=-1, b=0, c=0.2, d=0.4 => verySoft(0.3)=max{0,0.5}=0.5
+soft: a=0.2, b=0.4, c=0.8 => soft(0.3)=0.5
+normal: a=0.3, b=0.7, c=0.9 => normal(0.3)=0
+resistant: a=0.7, b=0.9, c=1 d=2 => resistant(0.3)=0
+
+capacity:
+small: a=-1, b=0, c=1, d=2 => small(1.5)=0.5
+medium: a=1, b=2.5, c=4 => medium(1.5)=0.333
+high: a=3, b=4, c=5, d=6 => high(1.5)=0
+
+We apply the rules:
+
+verySoft ^ small => delicate=min{0.5,0.5}=0.5
+verySoft ^ medium => easy= min{0.5,0.333}=0.333
+Soft ^ small => easy=min{0.5,0.5}=0.5
+Soft ^ medium => normal= min{0.5,0.333}=0.333
+
+defuzzify the variables based on the functions:
+
+inverseLine(a,b) (x): (b-a)*x+a
+inverseTri(a,b,c) (x): (inverseLine(a,b) (x) + inverseLine(c,b) (x))/2
+
+delicate: inverseLine(0.4,0.2)(0.5)= 0.3
+easy: inverseTri(0.2,0.5,0.8)(0.333)=(0.3+0.6)/2=0.45
+easy: inverseTri(0.2,0.5,0.8)(0.5)=(0.35+0.65)/2=0.5
+normal: inverseTri(0.3,0.6,0.9)(0.333)=(0.4+0.8)/2=0.6
+
+sum=1.666
+weighted sum= 0.15+0.1485+0.25+0.2
+
+total=0.45
+
+2)Input: texture:0.4, 2
+
+texture:
+verySoft: a=-1, b=0, c=0.2, d=0.4 => verySoft(0.4)=max{0,0}=0
+soft: a=0.2, b=0.4, c=0.8 => soft(0.4)=1
+normal: a=0.3, b=0.7, c=0.9 => normal(0.4)=0.25
+resistant: a=0.7, b=0.9, c=1 d=2 => resistant(0.4)=0
+
+capacity:
+small: a=-1, b=0, c=1, d=2 => small(2)=0
+medium: a=1, b=2.5, c=4 => medium(2)=0.666
+high: a=3, b=4, c=5, d=6 => high(2)=0
+
+We wapply the rules:
+normal ^ medium => normal= min{0.25,0.666}=0.25
+Soft ^ medium => normal= min{1,0.666}=0.666
+
+defuzzify the variables based on the functions:
+inverseLine(a,b) (x): (b-a)*x+a
+inverseTri(a,b,c) (x): (inverseLine(a,b) (x) + inverseLine(c,b) (x))/2
+
+
+normal: inverseTri(0.3,0.6,0.9)(0.25)=(0.375+0.825)/2=0.6
+normal: inverseTri(0.3,0.6,0.9)(0.666)=(0.5+0.7)/2=0.6
+
+sum=0.916
+weighted sum= 0.6*0.25+0.6*0.666=0.55
+
+total=0.6
+
+total=0.45

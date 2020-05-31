@@ -46,7 +46,7 @@ def geneticSearch(data, labels, populationSize=1000, replacePerGenerationPercent
                                        - individual.getFitness() for individual in individuals]
             probabilityDistribution = [p / sum(probabilityDistribution) for p in probabilityDistribution]
         except ZeroDivisionError:
-            fileWriter("STUCK WITH LOCAL OPTIMUM:\n\tfitness:" + str(alphaIndividual.getFitness())+ "\n\taccuracy:" + str(alphaIndividual.getAccuracy()))
+            fileWriter.write("STUCK WITH LOCAL OPTIMUM:\n\tfitness:" + str(alphaIndividual.getFitness())+ "\n\taccuracy:" + str(alphaIndividual.getAccuracy()))
             assert False
 
         children = []
@@ -85,6 +85,6 @@ def geneticSearch(data, labels, populationSize=1000, replacePerGenerationPercent
                      "REPLACE: " + str(replacePerGenerationPercentage) +
                      "TOURNAMENT: " + str(tournamentPercentage))
     fileWriter.write(str(alphaIndividual))
-    fileWriter.write("fitness: " + alphaIndividual.getFitness() +
-                     "accuracy: " + alphaIndividual.getAccuracy())
+    fileWriter.write("fitness: " + str(alphaIndividual.getFitness()) +
+                     "accuracy: " + str(alphaIndividual.getAccuracy()))
 

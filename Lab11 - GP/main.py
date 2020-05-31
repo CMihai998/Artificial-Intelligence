@@ -19,18 +19,18 @@ def readData():
     return data, labels
 
 if __name__ == '__main__':
-    populationSize= int(input("Input population size: "))
-    replacePerGenerationPercentage = float(input("Input replacement percent: "))
-    tournamentPercentage = float(input("Input tournament percent: "))
-    mutationChance = float(input("Input mutation percent: "))
-    epsilon = float(input("Input epsilon target: "))
+    # populationSize= int(input("Input population size: "))
+    # replacePerGenerationPercentage = float(input("Input replacement percent: "))
+    # tournamentPercentage = float(input("Input tournament percent: "))
+    # mutationChance = float(input("Input mutation percent: "))
+    # epsilon = float(input("Input epsilon target: "))
     data, labels = readData()
     geneticSearch(
-        populationSize=populationSize,
-        replacePerGenerationPercentage=replacePerGenerationPercentage,
-        tournamentPercentage=tournamentPercentage,
-        mutationChance=mutationChance,
-        epsilon=epsilon,
+        # populationSize=populationSize,
+        # replacePerGenerationPercentage=replacePerGenerationPercentage,
+        tournamentPercentage=0.2,
+        mutationChance=0.4,
+        # epsilon=epsilon,
         data=data,
         labels=labels
     )

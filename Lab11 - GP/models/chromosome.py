@@ -142,7 +142,7 @@ class Chromosome:
         startCutMother = random.randint(0, self._size - 1)
         endCutMother = self.traverse(startCutMother)
 
-        startCutFather = random.randint(0, other.getSize())
+        startCutFather = random.randint(0, other.getSize() - 1)
         endCutFather = other.traverse(startCutFather)
 
         child.representation = [0 for i in range(len(self._representation) + len(other.representation))]
@@ -154,15 +154,15 @@ class Chromosome:
             child[i] = self[i]
         for j in range(startCutFather, endCutFather):
             i += 1
-            child[i] = other[i]
+            child[i] = other[j]
         for j in range(endCutMother, self._size):
             i += 1
-        child[i] = self[i]
+            child[i] = self[j]
         child.representation = [x for x in child.representation if x != 0]
         child.setSize(len(child.representation))
         return child
 
-    def mutation(self):
+    def mutate(self):
         mutant = Chromosome(maxDepth=self._maxDepth, terminals=self._terminals, functions=self._functions, constants=self._constants)
         position = random.randint(0, self._size - 1)
         mutant.representation = self[:]

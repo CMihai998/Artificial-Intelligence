@@ -7,7 +7,7 @@ class FileWriter:
     @staticmethod
     def getFileWriter():
         if FileWriter.instance is None:
-            FileWriter.instance = FileWriter('output.txt')
+            FileWriter.instance = FileWriter('output2.txt')
         return FileWriter.instance
 
     def write(self, text):
